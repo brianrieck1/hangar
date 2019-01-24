@@ -8,6 +8,11 @@ module Hangar
           Hangar.created_data.delete(key)
         rescue ActiveRecord::RecordNotFound => e
           Hangar.created_data.delete(key)
+        rescue ActiveRecord::StatementInvalid => e
+          foriegn_key_ref = /ActiveRecord::StatementInvalid: Mysql2::Error: Cannot delete or update a parent row: a foreign key constraint fails\s\(`.*?`.`(.*?)`, CONSTRAINT `\w*` FOREIGN KEY \(`(.*)`\) REFERENCES `.*?`.* WHERE `.*?`.`.*?` = (\d+)/.match(e)
+          foriegn_key_ref[1].constantize.find_by(foriegn_key_ref[2] => foriegn_key_ref[3]).destroy
+          value.constantize.find(key).destroy
+          Hangar.created_data.delete(key)
         rescue Exception => e
           json = {"error": e.to_s}.to_json
         end

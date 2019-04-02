@@ -43,6 +43,7 @@ module Hangar
           # value.constantize.find(key).destroy
           # Hangar.created_data.delete(key)
         rescue Exception => e
+          e.to_s
           puts "NO NO NOONONONONONONONONONONONON"
           json = {"error": e.to_s}.to_json
         end

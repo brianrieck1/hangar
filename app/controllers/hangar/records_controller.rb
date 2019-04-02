@@ -1,29 +1,29 @@
 module Hangar
   class RecordsController < ActionController::Base
-    foriegn_key_ref = nil
+    @@foriegn_key_ref = nil
     def delete
       Hangar.created_data.each do |key, value|
         begin
           puts "********************************"
-          puts foriegn_key_ref
+          puts @@foriegn_key_ref
           puts "********************************"
           puts "i'm back baby"
           puts key
           puts value
           puts "********************************"
-          if foriegn_key_ref.nil?
+          if @@foriegn_key_ref.nil?
             puts "i'm in here"
             value.constantize.find(key).delete
             Hangar.created_data.delete(key)
           else
             puts "nope i'm in here"
-            puts foriegn_key_ref[1].singularize.camelize.constantize.columns 
-            puts foriegn_key_ref[2]
-            puts foriegn_key_ref[3]
-            hello = foriegn_key_ref[1].singularize.camelize.constantize.where(foriegn_key_ref[2] => foriegn_key_ref[3])
+            puts @@foriegn_key_ref[1].singularize.camelize.constantize.columns 
+            puts @@foriegn_key_ref[2]
+            puts @@foriegn_key_ref[3]
+            hello = @@foriegn_key_ref[1].singularize.camelize.constantize.where(@@foriegn_key_ref[2] => @@foriegn_key_ref[3])
             puts hello
             puts "I WILL NEVER EVER MAKE IT HHEREERERERERERE"
-            foriegn_key_ref = nil
+            @@foriegn_key_ref = nil
           end
 
           puts "sweet why did I make it to the end"
@@ -35,7 +35,7 @@ module Hangar
         rescue ActiveRecord::StatementInvalid => e
           puts "ERROR ERROR ERROR ERROR ERROR"
           puts e.to_s
-          foriegn_key_ref = /Mysql2::Error: Cannot delete or update a parent row: a foreign key constraint fails\s\(`.*?`.`(.*?)`, CONSTRAINT `\w*` FOREIGN KEY \(`(.*)`\) REFERENCES `.*?`.* WHERE `.*?`.`.*?` = (\d+)/.match(e.to_s)
+          @@foriegn_key_ref = /Mysql2::Error: Cannot delete or update a parent row: a foreign key constraint fails\s\(`.*?`.`(.*?)`, CONSTRAINT `\w*` FOREIGN KEY \(`(.*)`\) REFERENCES `.*?`.* WHERE `.*?`.`.*?` = (\d+)/.match(e.to_s)
           retry
           # puts e.to_s
           # puts "HEYOOOOOOOOOOOOOOOOOOO"

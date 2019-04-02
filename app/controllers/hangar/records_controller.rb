@@ -4,13 +4,22 @@ module Hangar
     def delete
       Hangar.created_data.each do |key, value|
         begin
+          puts "********************************"
+          puts @@foriegn_key_ref
+          puts "********************************"
+          puts "i'm back baby"
+          puts "********************************"
           if @@foriegn_key_ref.nil?
+            puts "i'm in here"
             value.constantize.find(key).delete
             Hangar.created_data.delete(key)
           else
+            puts "nope i'm in here"
             @@foriegn_key_ref[1].singularize.camelize.constantize.where(foriegn_key_ref[2] => foriegn_key_ref[3]).destroy_all
             @@foriegn_key_ref = nil
           end
+
+          puts "sweet why did I make it to the end"
           value.constantize.find(key).delete
           Hangar.created_data.delete(key)
         rescue ActiveRecord::RecordNotFound => e

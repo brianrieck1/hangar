@@ -5,7 +5,7 @@ module Hangar
       Hangar.created_data.each do |key, value|
         begin
 
-          associations = class_goes_here.reflect_on_all_associations
+          associations = value.constantize.reflect_on_all_associations
           associations = associations.select { |a| a.macro == :belongs_to }
           association_foreign_keys = associations.map(&:foreign_key)
           puts "************************************"
@@ -24,8 +24,7 @@ module Hangar
           value.constantize.find(key).destroy
           Hangar.created_data.delete(key)
         rescue Exception => e
-          puts "ANOTHER DAMN ERROR DAMNIT"
-          retry
+          puts e.to_s
           json = {"error": e.to_s}.to_json
         end
       end

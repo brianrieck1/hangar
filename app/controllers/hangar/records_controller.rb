@@ -29,6 +29,7 @@ module Hangar
           value.constantize.find(key).delete
           Hangar.created_data.delete(key)
         rescue ActiveRecord::RecordNotFound => e
+          puts "UH OH UH OH UH OH UH OH UH OH UH OH"
           Hangar.created_data.delete(key)
         rescue ActiveRecord::StatementInvalid => e
           puts "ERROR ERROR ERROR ERROR ERROR"
@@ -42,6 +43,7 @@ module Hangar
           # value.constantize.find(key).destroy
           # Hangar.created_data.delete(key)
         rescue Exception => e
+          puts "NO NO NOONONONONONONONONONONONON"
           json = {"error": e.to_s}.to_json
         end
       end

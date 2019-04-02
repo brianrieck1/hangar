@@ -17,7 +17,7 @@ module Hangar
             Hangar.created_data.delete(key)
           else
             puts "nope i'm in here"
-            puts @@foriegn_key_ref[1].singularize.camelize.constantize
+            puts @@foriegn_key_ref[1].singularize.camelize.constantize.columns 
             puts @@foriegn_key_ref[2]
             puts @@foriegn_key_ref[3]
             puts @@foriegn_key_ref[1].singularize.camelize.constantize.where(foriegn_key_ref[2] => foriegn_key_ref[3]).first

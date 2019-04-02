@@ -20,7 +20,7 @@ module Hangar
             puts @@foriegn_key_ref[1]
             puts @@foriegn_key_ref[2]
             puts @@foriegn_key_ref[3]
-            @@foriegn_key_ref[1].singularize.camelize.constantize.where(foriegn_key_ref[2] => foriegn_key_ref[3]).delete
+            @@foriegn_key_ref[1].singularize.camelize.constantize.find(foriegn_key_ref[2] => foriegn_key_ref[3]).delete
             puts "I WILL NEVER EVER MAKE IT HHEREERERERERERE"
             @@foriegn_key_ref = nil
           end
@@ -44,7 +44,7 @@ module Hangar
           # Hangar.created_data.delete(key)
         rescue Exception => e
           e.to_s
-          puts "NO NO NOONONONONONONONONONONONON"
+          puts "NO NO NOONONONO0000000000000000NONONONONONONONON"
           json = {"error": e.to_s}.to_json
         end
       end

@@ -4,6 +4,14 @@ module Hangar
     def delete
       Hangar.created_data.each do |key, value|
         begin
+
+          associations = class_goes_here.reflect_on_all_associations
+          associations = associations.select { |a| a.macro == :belongs_to }
+          association_foreign_keys = associations.map(&:foreign_key)
+          puts "************************************"
+          puts association_foreign_keys
+          puts "************************************"
+
           value.constantize.find(key).delete
           Hangar.created_data.delete(key)
         rescue ActiveRecord::RecordNotFound => e

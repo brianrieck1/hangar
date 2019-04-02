@@ -7,6 +7,9 @@ module Hangar
           if !@@foriegn_key_ref.nil?
             @@foriegn_key_ref[1].singularize.camelize.constantize.where(@@foriegn_key_ref[2] => @@foriegn_key_ref[3]).destroy_all
             @@foriegn_key_ref = nil
+
+            value.constantize.find(key).delete
+            Hangar.created_data.delete(key)
           else
             value.constantize.find(key).delete
             Hangar.created_data.delete(key)

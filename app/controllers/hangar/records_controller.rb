@@ -1,30 +1,31 @@
 module Hangar
   class RecordsController < ActionController::Base
-
+    @@foriegn_key_ref = nil
     def delete
       Hangar.created_data.each do |key, value|
         begin
-
-          associations = value.constantize.reflect_on_all_associations
-          associations = associations.select { |a| a.macro == :belongs_to }
-          association_foreign_keys = associations.map(&:foreign_key)
-          puts "************************************"
-          puts association_foreign_keys
-          puts "************************************"
-
+          if @@foriegn_key_ref.nil?
+            value.constantize.find(key).delete
+            Hangar.created_data.delete(key)
+          else
+            @@foriegn_key_ref[1].singularize.camelize.constantize.where(foriegn_key_ref[2] => foriegn_key_ref[3]).destroy_all
+            @@foriegn_key_ref = nil
+          end
           value.constantize.find(key).delete
           Hangar.created_data.delete(key)
         rescue ActiveRecord::RecordNotFound => e
           Hangar.created_data.delete(key)
         rescue ActiveRecord::StatementInvalid => e
           puts e.to_s
-          puts "HEYOOOOOOOOOOOOOOOOOOO"
-          foriegn_key_ref = /Mysql2::Error: Cannot delete or update a parent row: a foreign key constraint fails\s\(`.*?`.`(.*?)`, CONSTRAINT `\w*` FOREIGN KEY \(`(.*)`\) REFERENCES `.*?`.* WHERE `.*?`.`.*?` = (\d+)/.match(e.to_s)
-          foriegn_key_ref[1].singularize.camelize.constantize.where(foriegn_key_ref[2] => foriegn_key_ref[3]).destroy_all
-          value.constantize.find(key).destroy
-          Hangar.created_data.delete(key)
+          @@foriegn_key_ref = /Mysql2::Error: Cannot delete or update a parent row: a foreign key constraint fails\s\(`.*?`.`(.*?)`, CONSTRAINT `\w*` FOREIGN KEY \(`(.*)`\) REFERENCES `.*?`.* WHERE `.*?`.`.*?` = (\d+)/.match(e.to_s)
+          retry
+          # puts e.to_s
+          # puts "HEYOOOOOOOOOOOOOOOOOOO"
+          # foriegn_key_ref = /Mysql2::Error: Cannot delete or update a parent row: a foreign key constraint fails\s\(`.*?`.`(.*?)`, CONSTRAINT `\w*` FOREIGN KEY \(`(.*)`\) REFERENCES `.*?`.* WHERE `.*?`.`.*?` = (\d+)/.match(e.to_s)
+          # foriegn_key_ref[1].singularize.camelize.constantize.where(foriegn_key_ref[2] => foriegn_key_ref[3]).destroy_all
+          # value.constantize.find(key).destroy
+          # Hangar.created_data.delete(key)
         rescue Exception => e
-          puts e.to_s
           json = {"error": e.to_s}.to_json
         end
       end
@@ -60,3 +61,6 @@ module Hangar
     end 
   end
 end
+
+
+try to do it.....rescue and set instance variables.....retry but if there are instance variables try to delete those first....if there is another exception update the instance variables and retry

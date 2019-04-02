@@ -61,6 +61,3 @@ module Hangar
     end 
   end
 end
-
-
-try to do it.....rescue and set instance variables.....retry but if there are instance variables try to delete those first....if there is another exception update the instance variables and retry

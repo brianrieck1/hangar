@@ -11,11 +11,7 @@ module Hangar
           puts key
           puts value
           puts "********************************"
-          if @@foriegn_key_ref.nil?
-            puts "i'm in here"
-            value.constantize.find(key).delete
-            Hangar.created_data.delete(key)
-          else
+          if !@@foriegn_key_ref.nil?
             puts "nope i'm in here"
             puts @@foriegn_key_ref[1].singularize.camelize.constantize.columns 
             puts @@foriegn_key_ref[2]
@@ -23,11 +19,15 @@ module Hangar
             @@foriegn_key_ref[1].singularize.camelize.constantize.where(@@foriegn_key_ref[2] => @@foriegn_key_ref[3]).destroy_all
             puts "I WILL NEVER EVER MAKE IT HHEREERERERERERE"
             @@foriegn_key_ref = nil
+          else
+            puts "i'm in here"
+            value.constantize.find(key).delete
+            Hangar.created_data.delete(key)
           end
 
           puts "sweet why did I make it to the end"
-          value.constantize.find(key).delete
-          Hangar.created_data.delete(key)
+          # value.constantize.find(key).delete
+          # Hangar.created_data.delete(key)
         rescue ActiveRecord::RecordNotFound => e
           puts "UH OH UH OH UH OH UH OH UH OH UH OH"
           Hangar.created_data.delete(key)

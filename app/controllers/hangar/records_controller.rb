@@ -28,6 +28,7 @@ module Hangar
         rescue ActiveRecord::StatementInvalid => e
           puts e.to_s
           @@foriegn_key_ref = /Mysql2::Error: Cannot delete or update a parent row: a foreign key constraint fails\s\(`.*?`.`(.*?)`, CONSTRAINT `\w*` FOREIGN KEY \(`(.*)`\) REFERENCES `.*?`.* WHERE `.*?`.`.*?` = (\d+)/.match(e.to_s)
+          e.clear
           retry
           # puts e.to_s
           # puts "HEYOOOOOOOOOOOOOOOOOOO"

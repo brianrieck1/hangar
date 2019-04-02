@@ -20,6 +20,7 @@ module Hangar
             puts @@foriegn_key_ref[1]
             puts @@foriegn_key_ref[2]
             puts @@foriegn_key_ref[3]
+            puts @@foriegn_key_ref[1].singularize.camelize.constantize.find(foriegn_key_ref[2] => foriegn_key_ref[3])
             @@foriegn_key_ref[1].singularize.camelize.constantize.find(foriegn_key_ref[2] => foriegn_key_ref[3]).delete
             puts "I WILL NEVER EVER MAKE IT HHEREERERERERERE"
             @@foriegn_key_ref = nil
